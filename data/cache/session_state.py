@@ -1,2 +1,2 @@
-logged_user = 'tarcisio'
-logged_user_password = 'orrARDrdr27!'
+logged_user = 'admin'
+logged_user_password = '123'

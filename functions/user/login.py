@@ -74,6 +74,9 @@ class User:
                                     sleep(1)
                                     st.toast("Login bem-sucedido!")
                                     sleep(1)
+                                    with open("data/cache/session_state.py", "rw") as session:
+                                        session.write("logged_user = {}".format(user))
+                                        session.write("logged_user_password = {}".format(password))
 
                                 st.session_state.is_logged_in = True
                                 st.rerun()

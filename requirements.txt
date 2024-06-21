@@ -2,3 +2,6 @@ pillow==9.1.0
 matplotlib
 mysql-connector-python
 streamlit
+bcrypt
+reportlab
+python-dotenv
