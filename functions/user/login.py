@@ -78,8 +78,8 @@ class User:
                                         session.write("logged_user = '{}'".format(user))
                                         session.write("\nlogged_user_password = '{}'".format(password))
 
-                                st.session_state.is_logged_in = True
-                                st.rerun()
+                                    st.session_state.is_logged_in = True
+                                    st.rerun()
 
                             else:
                                 st.error("Login falhou. Verifique suas credenciais.")
