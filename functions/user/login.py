@@ -16,11 +16,11 @@ class User:
             check_if_user_exists = query_executor.check_if_value_exists("SELECT login FROM usuarios WHERE login = '{}'".format(login))
 
             if check_if_user_exists:
-                hashed_password_query = "SELECT senha FROM usuarios WHERE login = '{}'".format(login)
-                hashed_password = query_executor.simple_consult_query(hashed_password_query)
+                password_query = "SELECT senha FROM usuarios WHERE login = '{}'".format(login)
+                password = query_executor.simple_consult_query(password_query)
 
-                if hashed_password:
-                    return bcrypt.checkpw(password.encode('utf-8'), hashed_password[0])  
+                if password:
+                    return password
                 else:
                     return False
             else:
@@ -74,9 +74,9 @@ class User:
                                     sleep(1)
                                     st.toast("Login bem-sucedido!")
                                     sleep(1)
-                                    with open("data/cache/session_state.py", "rw") as session:
-                                        session.write("logged_user = {}".format(user))
-                                        session.write("logged_user_password = {}".format(password))
+                                    with open("data/cache/session_state.py", "w") as session:
+                                        session.write("logged_user = '{}'".format(user))
+                                        session.write("\nlogged_user_password = '{}'".format(password))
 
                                 st.session_state.is_logged_in = True
                                 st.rerun()

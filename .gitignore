@@ -151,7 +151,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-.streamlit/config.toml
+# .streamlit/config.toml
 
 data/receipts/credit_card_expenses/*.png
 data/receipts/expenses/*.png
@@ -160,6 +160,3 @@ data/receipts/pay_stub/*.png
 data/receipts/revenues/*.png
 data/receipts/transfers/*.png
 data/receipts/reports/*.png
-library/.fuse_hidden*
-library/images/.fuse_hidden
-test.py

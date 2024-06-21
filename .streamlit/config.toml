@@ -1,0 +1,9 @@
+[theme]
+primaryColor="#000033"
+backgroundColor="#CCCCCC"
+secondaryBackgroundColor="#03BB85"
+textColor="#000033"
+
+[server]
+headless = true
+enableStaticServing = true
