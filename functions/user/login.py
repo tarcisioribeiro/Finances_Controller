@@ -1,5 +1,4 @@
 import streamlit as st
-import bcrypt
 from dictionary.vars import to_remove_list, absolute_app_path
 from dictionary.sql import doc_name_query, name_query, sex_query
 from functions.query_executor import QueryExecutor

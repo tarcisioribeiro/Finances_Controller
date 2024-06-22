@@ -299,6 +299,7 @@ ticket_revenue_query: str = """
                     AND receitas.documento_proprietario_receita = usuarios.cpf
             WHERE
                 contas.tipo_conta = 'Vale Alimentação'
+		    AND contas.inativa = 'N'
                     AND receitas.recebido = 'S'
                     AND usuarios.login = '{}'
                     AND usuarios.senha = '{}';""".format(
@@ -319,6 +320,7 @@ ticket_expense_query: str = """
                     AND despesas.documento_proprietario_despesa = usuarios.cpf
             WHERE
                 contas.tipo_conta = 'Vale Alimentação'
+		    AND contas.inativa = 'N'
                     AND despesas.pago = 'S'
                     AND usuarios.login = '{}'
                     AND usuarios.senha = '{}';""".format(
