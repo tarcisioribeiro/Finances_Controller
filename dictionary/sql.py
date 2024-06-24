@@ -21,7 +21,7 @@ last_expense_query: str = """
                     AND usuarios.login = '{}'
                     AND usuarios.senha = '{}'
                     AND despesas.pago = 'S'
-            ORDER BY despesas.data DESC, despesas.id DESC
+            ORDER BY despesas.data DESC, despesas.id_despesa DESC
             LIMIT 5;""".format(
     logged_user, logged_user_password
 )
@@ -48,7 +48,7 @@ last_revenue_query: str = """
                     AND usuarios.login = '{}'
                     AND usuarios.senha = '{}'
                     AND receitas.recebido = 'S'
-            ORDER BY receitas.data DESC , receitas.id DESC
+            ORDER BY receitas.data DESC , receitas.id_receita DESC
             LIMIT 5;""".format(
     today, logged_user, logged_user_password
 )
@@ -617,7 +617,7 @@ total_loan_value_query: str = """
 
 not_payed_loans_query = '''
     SELECT
-        emprestimos.id AS 'ID',
+        emprestimos.id_emprestimo AS 'ID',
         emprestimos.descricao AS 'Descrição',
         emprestimos.valor AS 'Valor',
         emprestimos.valor_pago AS 'Valor Pago',
@@ -652,7 +652,7 @@ WHERE
         AND usuarios.senha = '{}';'''.format(logged_user, logged_user_password)
 
 not_received_revenue_ids_query = '''SELECT 
-    receitas.id
+    receitas.id_receita
 FROM
     receitas
         INNER JOIN

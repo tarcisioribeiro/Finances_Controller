@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MySql" id="MySql-c79" database="MySql" >
+	<schema name="testes" >
+		<table name="beneficiados" row_count="3" spec="" >
+			<column name="id_beneficiado" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nome" type="VARCHAR" length="100" jt="12" />
+			<column name="cpf_cnpj" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="tel_celular" type="VARCHAR" length="11" jt="12" mandatory="y" >
+				<defo><![CDATA['0']]></defo>
+			</column>
+			<index name="pk_beneficiados" unique="PRIMARY_KEY" >
+				<column name="id_beneficiado" />
+			</index>
+			<index name="chave_beneficiado" unique="UNIQUE_KEY" >
+				<column name="nome" />
+				<column name="cpf_cnpj" />
+				<column name="tel_celular" />
+			</index>
+			<index name="idx_beneficiado" unique="UNIQUE_KEY" >
+				<column name="nome" />
+				<column name="cpf_cnpj" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="cartao_credito" row_count="2" spec="" >
+			<column name="id_cartao" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nome_cartao" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="numero_cartao" type="VARCHAR" length="16" jt="12" mandatory="y" />
+			<column name="nome_titular" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="proprietario_cartao" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_titular" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="data_validade" type="DATE" jt="91" mandatory="y" />
+			<column name="codigo_seguranca" type="INT" jt="4" mandatory="y" />
+			<column name="limite_credito" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="limite_maximo" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="conta_associada" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="inativo" type="VARCHAR" length="1" jt="12" >
+				<defo><![CDATA['N']]></defo>
+			</column>
+			<index name="pk_cartao_credito" unique="PRIMARY_KEY" >
+				<column name="id_cartao" />
+			</index>
+			<index name="chave_cartao" unique="UNIQUE_KEY" >
+				<column name="numero_cartao" />
+				<column name="documento_titular" />
+				<column name="conta_associada" />
+			</index>
+			<index name="unq_cartao_credito_nome_cartao" unique="UNIQUE_KEY" >
+				<column name="nome_cartao" />
+				<column name="numero_cartao" />
+			</index>
+			<fk name="fk_cartao_credito_usuarios" to_schema="testes" to_table="usuarios" delete_action="restrict" >
+				<fk_column name="proprietario_cartao" pk="nome" />
+				<fk_column name="documento_titular" pk="cpf" />
+			</fk>
+			<fk name="fk_cartao_credito_contas" to_schema="testes" to_table="contas" delete_action="restrict" >
+				<fk_column name="conta_associada" pk="nome_conta" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="contas" row_count="10" spec="" >
+			<column name="id_conta" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nome_conta" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="tipo_conta" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="proprietario_conta" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_proprietario_conta" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="inativa" type="CHAR" length="1" jt="1" mandatory="y" >
+				<defo><![CDATA['N']]></defo>
+			</column>
+			<index name="pk_contas" unique="PRIMARY_KEY" >
+				<column name="id_conta" />
+			</index>
+			<index name="chave_conta" unique="UNIQUE_KEY" >
+				<column name="nome_conta" />
+				<column name="tipo_conta" />
+				<column name="proprietario_conta" />
+				<column name="documento_proprietario_conta" />
+			</index>
+			<index name="idx_contas" unique="UNIQUE_KEY" >
+				<column name="nome_conta" />
+			</index>
+			<fk name="fk_contas_usuarios" to_schema="testes" to_table="usuarios" delete_action="restrict" >
+				<fk_column name="proprietario_conta" pk="nome" />
+				<fk_column name="documento_proprietario_conta" pk="cpf" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="credores" row_count="4" spec="" >
+			<column name="id_credor" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nome" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="cpf_cnpj" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="tel_celular" type="VARCHAR" length="11" jt="12" mandatory="y" >
+				<defo><![CDATA['0']]></defo>
+			</column>
+			<index name="pk_credores" unique="PRIMARY_KEY" >
+				<column name="id_credor" />
+			</index>
+			<index name="chave_credor" unique="UNIQUE_KEY" >
+				<column name="nome" />
+				<column name="cpf_cnpj" />
+				<column name="tel_celular" />
+			</index>
+			<index name="idx_credor" unique="UNIQUE_KEY" >
+				<column name="nome" />
+				<column name="cpf_cnpj" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="despesas" row_count="441" spec="" >
+			<column name="id_despesa" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="descricao" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<defo><![CDATA['Despesa']]></defo>
+			</column>
+			<column name="valor" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="data" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<column name="horario" type="TIME" jt="92" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIME]]></defo>
+			</column>
+			<column name="categoria" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="conta" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="proprietario_despesa" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_proprietario_despesa" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="pago" type="CHAR" length="1" jt="1" mandatory="y" >
+				<defo><![CDATA['S']]></defo>
+			</column>
+			<index name="pk_despesas" unique="PRIMARY_KEY" >
+				<column name="id_despesa" />
+			</index>
+			<index name="chave_despesa" unique="UNIQUE_KEY" >
+				<column name="valor" />
+				<column name="data" />
+				<column name="horario" />
+				<column name="categoria" />
+				<column name="conta" />
+				<column name="proprietario_despesa" />
+				<column name="documento_proprietario_despesa" />
+			</index>
+			<index name="unq_despesas_conta" unique="UNIQUE_KEY" >
+				<column name="conta" />
+			</index>
+			<fk name="fk_despesas_contas" to_schema="testes" to_table="contas" delete_action="restrict" >
+				<fk_column name="conta" pk="nome_conta" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="despesas_cartao_credito" row_count="206" spec="" >
+			<column name="id_despesa_cartao" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="descricao" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<defo><![CDATA['Despesa Cartão']]></defo>
+			</column>
+			<column name="valor" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="data" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<column name="horario" type="TIME" jt="92" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIME]]></defo>
+			</column>
+			<column name="categoria" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="cartao" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="numero_cartao" type="VARCHAR" length="16" jt="12" mandatory="y" />
+			<column name="proprietario_despesa_cartao" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="doc_proprietario_cartao" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="parcela" type="INT" jt="4" mandatory="y" >
+				<defo><![CDATA['1']]></defo>
+			</column>
+			<column name="pago" type="CHAR" length="1" jt="1" mandatory="y" >
+				<defo><![CDATA['N']]></defo>
+			</column>
+			<index name="pk_despesas_cartao_credito" unique="PRIMARY_KEY" >
+				<column name="id_despesa_cartao" />
+			</index>
+			<index name="chave_despesa_cartao" unique="UNIQUE_KEY" >
+				<column name="valor" />
+				<column name="data" />
+				<column name="horario" />
+				<column name="categoria" />
+				<column name="cartao" />
+				<column name="parcela" />
+			</index>
+			<fk name="fk_despesas_cartao_credito" to_schema="testes" to_table="cartao_credito" delete_action="restrict" >
+				<fk_column name="cartao" pk="nome_cartao" />
+				<fk_column name="numero_cartao" pk="numero_cartao" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="emprestimos" row_count="49" spec="" >
+			<column name="id_emprestimo" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="descricao" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="valor" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="valor_pago" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="data" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<column name="horario" type="TIME" jt="92" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIME]]></defo>
+			</column>
+			<column name="categoria" type="VARCHAR" length="100" jt="12" />
+			<column name="conta" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="devedor" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_devedor" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="credor" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_credor" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="pago" type="CHAR" length="1" jt="1" mandatory="y" >
+				<defo><![CDATA['N']]></defo>
+			</column>
+			<index name="pk_emprestimos" unique="PRIMARY_KEY" >
+				<column name="id_emprestimo" />
+			</index>
+			<index name="chave_emprestimo" unique="UNIQUE_KEY" >
+				<column name="valor" />
+				<column name="data" />
+				<column name="horario" />
+				<column name="categoria" />
+				<column name="conta" />
+				<column name="devedor" />
+				<column name="credor" />
+			</index>
+			<fk name="fk_emprestimos_contas" to_schema="testes" to_table="contas" delete_action="restrict" >
+				<fk_column name="conta" pk="nome_conta" />
+			</fk>
+			<fk name="fk_beneficiado_emprestimo" to_schema="testes" to_table="beneficiados" delete_action="restrict" >
+				<fk_column name="devedor" pk="nome" />
+				<fk_column name="documento_devedor" pk="cpf_cnpj" />
+			</fk>
+			<fk name="fk_credor_emprestimo" to_schema="testes" to_table="credores" delete_action="restrict" >
+				<fk_column name="credor" pk="nome" />
+				<fk_column name="documento_credor" pk="cpf_cnpj" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="fechamentos_cartao" row_count="15" spec="" >
+			<column name="id_fechamento_cartao" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nome_cartao" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="numero_cartao" type="VARCHAR" length="16" jt="12" mandatory="y" />
+			<column name="documento_titular" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="ano" type="YEAR" length="4" jt="4" mandatory="y" />
+			<column name="mes" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="data_comeco_fatura" type="DATE" jt="91" mandatory="y" />
+			<column name="data_fim_fatura" type="DATE" jt="91" mandatory="y" />
+			<column name="fechado" type="VARCHAR" length="1" jt="12" >
+				<defo><![CDATA['N']]></defo>
+			</column>
+			<index name="pk_fechamentos_cartao" unique="PRIMARY_KEY" >
+				<column name="id_fechamento_cartao" />
+			</index>
+			<index name="chave_fechamento_cartao" unique="UNIQUE_KEY" >
+				<column name="numero_cartao" />
+				<column name="documento_titular" />
+				<column name="ano" />
+				<column name="mes" />
+			</index>
+			<fk name="fk_fechamentos_cartao" to_schema="testes" to_table="cartao_credito" delete_action="restrict" >
+				<fk_column name="nome_cartao" pk="nome_cartao" />
+				<fk_column name="numero_cartao" pk="numero_cartao" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="receitas" row_count="319" spec="" >
+			<column name="id_receita" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="descricao" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<defo><![CDATA['Receita']]></defo>
+			</column>
+			<column name="valor" type="DECIMAL" length="10" decimal="2" jt="3" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="data" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<column name="horario" type="TIME" jt="92" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIME]]></defo>
+			</column>
+			<column name="categoria" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="conta" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="proprietario_receita" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_proprietario_receita" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="recebido" type="CHAR" length="1" jt="1" mandatory="y" >
+				<defo><![CDATA['S']]></defo>
+			</column>
+			<index name="pk_receitas" unique="PRIMARY_KEY" >
+				<column name="id_receita" />
+			</index>
+			<index name="chave_despesa" unique="UNIQUE_KEY" >
+				<column name="valor" />
+				<column name="data" />
+				<column name="horario" />
+				<column name="categoria" />
+				<column name="conta" />
+				<column name="proprietario_receita" />
+				<column name="documento_proprietario_receita" />
+			</index>
+			<index name="unq_receitas_conta" unique="UNIQUE_KEY" >
+				<column name="conta" />
+			</index>
+			<fk name="fk_receitas_contas" to_schema="testes" to_table="contas" delete_action="restrict" >
+				<fk_column name="conta" pk="nome_conta" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="transferencias" row_count="17" spec="" >
+			<column name="id_transferencia" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="descricao" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<defo><![CDATA['Transferência']]></defo>
+			</column>
+			<column name="valor" type="DECIMAL" length="10" decimal="2" jt="3" mandatory="y" />
+			<column name="data" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<column name="horario" type="TIME" jt="92" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIME]]></defo>
+			</column>
+			<column name="categoria" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="conta_origem" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="conta_destino" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="proprietario_transferencia" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="documento_proprietario_transferencia" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="transferido" type="CHAR" length="1" jt="1" mandatory="y" >
+				<defo><![CDATA['S']]></defo>
+			</column>
+			<index name="pk_transferencias" unique="PRIMARY_KEY" >
+				<column name="id_transferencia" />
+			</index>
+			<index name="chave_transferencia" unique="UNIQUE_KEY" >
+				<column name="valor" />
+				<column name="data" />
+				<column name="horario" />
+				<column name="categoria" />
+				<column name="conta_origem" />
+				<column name="conta_destino" />
+			</index>
+			<fk name="fk_transferencias_despesas" to_schema="testes" to_table="despesas" delete_action="restrict" >
+				<fk_column name="conta_origem" pk="conta" />
+			</fk>
+			<fk name="fk_transferencias_receitas" to_schema="testes" to_table="receitas" delete_action="restrict" >
+				<fk_column name="conta_destino" pk="conta" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="usuarios" row_count="2" spec="" >
+			<column name="id_usuario" prior="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="login" type="VARCHAR" length="25" jt="12" mandatory="y" />
+			<column name="senha" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="nome" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="cpf" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="sexo" type="CHAR" length="1" jt="1" />
+			<index name="pk_usuarios" unique="PRIMARY_KEY" >
+				<column name="id_usuario" />
+			</index>
+			<index name="chave_usuario" unique="UNIQUE_KEY" >
+				<column name="login" />
+				<column name="senha" />
+			</index>
+			<index name="unq_usuarios_nome" unique="UNIQUE_KEY" >
+				<column name="nome" />
+				<column name="cpf" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+	</schema>
+	<layout name="Main Layout" id="Layout-2268" show_relation="columns" >
+		<entity schema="testes" name="beneficiados" color="BED3F4" x="323" y="119" />
+		<entity schema="testes" name="cartao_credito" color="BED3F4" x="51" y="884" />
+		<entity schema="testes" name="contas" color="BED3F4" x="510" y="459" />
+		<entity schema="testes" name="credores" color="BED3F4" x="357" y="255" />
+		<entity schema="testes" name="despesas" color="BED3F4" x="357" y="714" />
+		<entity schema="testes" name="despesas_cartao_credito" color="BED3F4" x="391" y="969" />
+		<entity schema="testes" name="emprestimos" color="BED3F4" x="663" y="85" />
+		<entity schema="testes" name="fechamentos_cartao" color="BED3F4" x="204" y="1343" />
+		<entity schema="testes" name="receitas" color="BED3F4" x="816" y="476" />
+		<entity schema="testes" name="transferencias" color="BED3F4" x="731" y="816" />
+		<entity schema="testes" name="usuarios" color="BED3F4" x="51" y="459" />
+		<callout x="1564" y="442" pointer="Round" >
+			<comment><![CDATA[This is a layout. You can create multiple layouts with the same or different tables. 
+Double-click the table headers to edit.]]></comment>
+		</callout>
+		<group name="beneficiados" color="ECF0F7" >
+			<entity schema="testes" name="usuarios" />
+			<entity schema="testes" name="contas" />
+			<entity schema="testes" name="transferencias" />
+			<entity schema="testes" name="despesas_cartao_credito" />
+			<entity schema="testes" name="fechamentos_cartao" />
+			<entity schema="testes" name="cartao_credito" />
+			<entity schema="testes" name="despesas" />
+			<entity schema="testes" name="receitas" />
+			<entity schema="testes" name="beneficiados" />
+			<entity schema="testes" name="emprestimos" />
+			<entity schema="testes" name="credores" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-1d83" show_column_type="y" show_relation="columns" >
+		<entity schema="testes" name="beneficiados" color="BED3F4" x="884" y="425" />
+		<entity schema="testes" name="cartao_credito" color="BED3F4" x="1190" y="425" />
+		<entity schema="testes" name="contas" color="BED3F4" x="799" y="663" />
+		<entity schema="testes" name="credores" color="BED3F4" x="578" y="425" />
+		<entity schema="testes" name="despesas" color="BED3F4" x="476" y="102" />
+		<entity schema="testes" name="despesas_cartao_credito" color="BED3F4" x="51" y="425" />
+		<entity schema="testes" name="emprestimos" color="BED3F4" x="884" y="51" />
+		<entity schema="testes" name="fechamentos_cartao" color="BED3F4" x="1547" y="425" />
+		<entity schema="testes" name="receitas" color="BED3F4" x="1547" y="782" />
+		<entity schema="testes" name="transferencias" color="BED3F4" x="1547" y="85" />
+		<entity schema="testes" name="usuarios" color="BED3F4" x="1190" y="782" />
+		<script name="SQL Editor" id="Editor-980" language="SQL" >
+			<string><![CDATA[SELECT
+	id, nome, cpf_cnpj, email, tel_celular
+FROM
+	testes.beneficiados s;]]></string>
+		</script>
+		<browser id="Browse-1e1" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="testes" entity="beneficiados" x="20" y="20" width="270" height="-60" />
+		</browser>
+		<query id="Query-1839" name="Query Builder" >
+			<query_table schema="testes" name="beneficiados" alias="b" x="51" y="51" >
+				<column name="id_beneficiado" />
+				<column name="nome" />
+				<column name="cpf_cnpj" />
+				<column name="tel_celular" />
+			</query_table>
+		</query>
+		<form name="Report" id="Report-33" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" max_records="100" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2}}" generate_path="y" scroll="n" html="n" header_rows="0" footer_rows="0" >
+				<cell type="label" name="Beneficiados Data" template="H3" pos="0,0,1,0,l,c" />
+				<tableview name="sample" template="Table" max_records="100" css="sortable table table-striped table-sm table-hover" pos="0,1,4,1,f,f" layout="{{-2,-2,-2,-2,-2,-2},{-2,-2}}" generate_path="y" scroll="n" html="n" header_rows="1" footer_rows="0" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="id" type="4" />
+						<var name="nome" type="-1" />
+						<var name="cpf_cnpj" type="-5" />
+						<var name="email" type="-1" />
+						<var name="tel_celular" type="-1" />
+						<script ><![CDATA[SELECT * FROM testes.beneficiados]]></script>
+					</form_script>
+					<cell type="label" name="id" template="Plain" pos="0,0,0,0,c,c" />
+					<cell type="label" name="nome" template="Plain" pos="1,0,1,0,c,c" />
+					<cell type="label" name="cpf_cnpj" template="Plain" pos="2,0,2,0,c,c" />
+					<cell type="label" name="email" template="Plain" pos="3,0,3,0,c,c" />
+					<cell type="label" name="tel_celular" template="Plain" pos="4,0,4,0,c,c" />
+					<cell type="label" name="${id}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${nome}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${cpf_cnpj}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${email}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${tel_celular}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-sm btn-secondary" pos="5,1,5,1,c,c" ref_id="Report-33" />
+				</tableview>
+				<cell type="href" name="" template="Plain" disabled="${samplePageNumber&lt;1}" pos="0,2,0,2,l,c" glyph="bi-chevron_double_left" ref_id="Report-33" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" template="Plain" disabled="${samplePageNumber&lt;1}" pos="1,2,1,2,l,c" glyph="bi-chevron_left" ref_id="Report-33" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" template="Plain" pos="2,2,2,2,l,c" />
+				<cell type="href" name="" template="Plain" disabled="${!sampleHasNextPage}" pos="3,2,3,2,l,c" glyph="bi-chevron_right" ref_id="Report-33" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>

@@ -18,14 +18,14 @@ O Multigrana é um aplicativo feito em Streamlit que permite o controle de conta
 
     > `nano .env`
 
-        DB_PORT=3306
-        DB_HOSTNAME=localhost
+        DB_PORT='port'
+        DB_HOSTNAME='host'
         DB_USER=root
         DB_NAME=financas
-        DB_PASSWORD=orrARDrdr27!
+        DB_PASSWORD='password'
 
 
-* Faça a criação do serviço como **systemd**:
+* Copie o executável do programa:
 
     > `cd services`
 
@@ -33,7 +33,9 @@ O Multigrana é um aplicativo feito em Streamlit que permite o controle de conta
 
     > `sudo nano /usr/bin/fcscript.sh`
 
-* Troque a variável $USER pelo nome do usuário:
+    * Troque a variável $USER pelo nome do usuário.
+
+* Faça a criação do serviço como **systemd**:
 
     > `sudo cp fcscript.service /lib/systemd/system`
 
