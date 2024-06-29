@@ -208,7 +208,7 @@ class Credit_Card:
 
             credit_card_id_expenses_query = """
             SELECT 
-                despesas_cartao_credito.id
+                despesas_cartao_credito.id_despesa_cartao
             FROM
                 despesas_cartao_credito
                     INNER JOIN

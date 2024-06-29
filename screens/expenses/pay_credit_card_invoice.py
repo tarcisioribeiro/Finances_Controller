@@ -98,7 +98,7 @@ class CreditCardInvoice:
                 with col2:
                     if confirm_values_checkbox and pay_button:
 
-                        query_executor.update_table_registers("despesas_cartao_credito", id_list)
+                        query_executor.update_table_registers("despesas_cartao_credito", "despesa_cartao", id_list)
                         query_executor.insert_query(expense_query, values, "Fatura paga com sucesso!", "")
 
                         query_executor.update_table_unique_register(update_invoice_query, "Fatura fechada com sucesso!", "Falha ao fechar fatura:")

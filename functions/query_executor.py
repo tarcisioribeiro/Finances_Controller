@@ -145,11 +145,11 @@ class QueryExecutor:
             cursor.execute(query)
             return cursor.fetchone() is not None
 
-        def update_table_registers(table: str, id_list: list):
+        def update_table_registers(table: str, table_field: str, id_list: list):
 
             for i in range(0, len(id_list)):
 
-                update_id_query = """UPDATE {} SET pago = 'S' WHERE id = {}""".format(table, id_list[i])
+                update_id_query = """UPDATE {} SET pago = 'S' WHERE id_{} = {}""".format(table, table_field, id_list[i])
 
                 try:
                     connection = mysql.connector.connect(**db_config)

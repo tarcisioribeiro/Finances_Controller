@@ -271,17 +271,17 @@ max_expense_query: str = """
 
 # Consultas dos ids de despesas e receitas
 
-last_expense_id_query: str = """SELECT id FROM despesas ORDER BY id DESC LIMIT 1;"""
+last_expense_id_query: str = """SELECT id_despesa FROM despesas ORDER BY id_despesa DESC LIMIT 1;"""
 
-last_loan_id_query: str = """SELECT id FROM emprestimos ORDER BY id DESC LIMIT 1;"""
+last_loan_id_query: str = """SELECT id_emprestimo FROM emprestimos ORDER BY id_emprestimo DESC LIMIT 1;"""
 
 last_credit_card_expense_id_query: str = (
-    """SELECT id FROM despesas_cartao_credito ORDER BY id DESC LIMIT 1;""")
+    """SELECT id_despesa_cartao FROM despesas_cartao_credito ORDER BY id_despesa_cartao DESC LIMIT 1;""")
 
-last_revenue_id_query: str = """SELECT id FROM receitas ORDER BY id DESC LIMIT 1;"""
+last_revenue_id_query: str = """SELECT id_receita FROM receitas ORDER BY id_receita DESC LIMIT 1;"""
 
 last_transfer_id_query: str = (
-    """SELECT id FROM transferencias ORDER BY id DESC LIMIT 1;""")
+    """SELECT id_transferencia FROM transferencias ORDER BY id_transferencia DESC LIMIT 1;""")
 
 # Consultas de receitas e despesas de vale alimentação
 
