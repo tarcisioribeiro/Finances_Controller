@@ -16,13 +16,13 @@ O Multigrana é um aplicativo feito em Streamlit que permite o controle de conta
 
 * Crie um arquivo **.env** com os dados abaixo:
 
-    > `nano .env`
+    > `touch .env`
 
-        DB_PORT='port'
-        DB_HOSTNAME='host'
-        DB_USER=root
-        DB_NAME=financas
-        DB_PASSWORD='password'
+      	> `echo  DB_PORT='port' >> .env`
+        > `DB_HOSTNAME='host' >> .env`
+        > `DB_USER=root >> .env`
+        > `DB_NAME=financas >> .env`
+        > `DB_PASSWORD='password' >> .env`
 
 
 * Copie o executável do programa:
