@@ -161,3 +161,4 @@ data/receipts/revenues/*.png
 data/receipts/transfers/*.png
 data/receipts/reports/*.png
 data/cache/session_state.py
+data/cache/session_state.py
