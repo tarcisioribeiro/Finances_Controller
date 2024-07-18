@@ -1,7 +1,6 @@
 import streamlit as st
 from dictionary.vars import menu_options
 from functions.user.login import User
-from screens.configs import Config
 from screens.expenses.main import NewExpense
 from screens.homepage import Home
 from screens.loans.main import Loan
@@ -71,10 +70,6 @@ def HomePage():
     elif sidebar_choice == "Relatórios":
         call_report = Reports()
         call_report.interface()
-
-    elif sidebar_choice == "Configurações":
-        call_config = Config()
-        call_config.config()
 
     elif sidebar_choice == "Cadastros":
         call_registers = Registers()

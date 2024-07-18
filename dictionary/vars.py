@@ -123,15 +123,7 @@ db_config = {
     "database": db_database,
 }
 
-# db_config = {
-#     "host": "localhost",
-#     "port": 3306,
-#     "user": "root",
-#     "password": "orrARDrdr27!",
-#     "database": "financas",
-# }
-
-menu_options: list = ["Selecione uma opção", "Registrar despesa", "Registrar receita", "Registrar transferência", "Empréstimos", "Relatórios", "Cadastros", "Configurações"]
+menu_options: list = ["Selecione uma opção", "Registrar despesa", "Registrar receita", "Registrar transferência", "Empréstimos", "Relatórios", "Cadastros"]
 expense_categories: list = ["Selecione uma opção","Casa","Lazer","Eletroeletrônicos","Serviços","Entretenimento","Presente","Restaurante","Saúde","Supermercado","Transporte","Vestuário"]
 revenue_categories: list = ["Selecione uma opção","Ajuste","Depósito","Prêmio","Salário","Vale","Rendimentos"]
 transfer_categories: list = ["Selecione uma opção", "DOC", "TED", "Pix"]
