@@ -1,3 +1,4 @@
+from data.cache.session_state import logged_user
 from dictionary.vars import accounts, accounts_type, today, actual_horary, to_remove_list
 from dictionary.sql import user_current_accounts_query
 from dictionary.user_stats import user_name, user_document
@@ -41,6 +42,10 @@ class UpdateAccounts:
                         "Conta cadastrada com sucesso!",
                         "Erro ao cadastrar conta:",
                     )
+
+                    log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                    log_values = (logged_user, "Cadastro", "Cadastrou a conta {}.".format(account_name))
+                    query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                     new_account_first_revenue_query = "INSERT INTO receitas (descricao, valor, data, horario, categoria, conta, proprietario_receita, documento_proprietario_receita, recebido) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
                     new_account_first_revenue_values = (

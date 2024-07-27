@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
-from time import sleep
+from data.cache.session_state import logged_user
+from dictionary.sql import not_payed_loans_query, user_current_accounts_query, doc_name_query, last_expense_id_query
+from dictionary.vars import to_remove_list, today
 from functions.query_executor import QueryExecutor
 from functions.get_actual_time import GetActualTime
 from screens.reports.receipts import Receipts
-from dictionary.sql import not_payed_loans_query, user_current_accounts_query, doc_name_query, last_expense_id_query
-from dictionary.vars import to_remove_list, today
+from time import sleep
 
 
 class PayLoan:
@@ -199,6 +200,10 @@ class PayLoan:
 
                             with col7:
                                 receipt_generator.generate_receipt(table="despesas", id=last_expense_id, description='Pagamento de empréstimo - {}'.format(debt), value=paying_value, date=today, category='Pagamento de Empréstimo', account=selected_account)
+
+                                log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                                log_values = (logged_user, "Registro", "Registrou uma despesa no valor de R$ {} associada a conta {}.".format(paying_value, account))
+                                query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                 elif len(not_payed_loans[0]) == 0:
 

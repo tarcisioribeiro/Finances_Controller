@@ -27,7 +27,7 @@ class Receipts:
             if table == "despesas":
                 id_query = """
                             SELECT 
-                                despesas.id
+                                despesas.id_despesa
                             FROM
                                 despesas
                                 INNER JOIN usuarios ON despesas.proprietario_despesa = usuarios.nome AND despesas.documento_proprietario_despesa = usuarios.cpf
@@ -47,7 +47,7 @@ class Receipts:
             if table == "receitas":
                 id_query = """
                             SELECT 
-                                receitas.id
+                                receitas.id_receita
                             FROM
                                 receitas
                                 INNER JOIN usuarios ON receitas.proprietario_receita = usuarios.nome AND receitas.documento_proprietario_receita = usuarios.cpf
@@ -67,7 +67,7 @@ class Receipts:
             if table == "despesas_cartao_credito":
                 id_query = """
                                 SELECT 
-                                    despesas_cartao_credito.id
+                                    despesas_cartao_credito.id_despesa_cartao
                                 FROM
                                     despesas_cartao_credito
                                         INNER JOIN
@@ -89,7 +89,7 @@ class Receipts:
             if table == "emprestimos":
                 id_query = """
                                 SELECT 
-                                    emprestimos.id
+                                    emprestimos.id_emprestimo
                                 FROM
                                     emprestimos
                                         INNER JOIN
@@ -122,10 +122,12 @@ class Receipts:
 
         def execute_query(table, id):
 
-            values_query = """SELECT id, descricao, valor, data, categoria, conta FROM {} WHERE id = {};""".format(table, id)
-
             if table == "despesas_cartao_credito":
-                values_query = """SELECT id, descricao, valor, data, categoria, cartao FROM {} WHERE id = {};""".format(table, id)
+                values_query = """SELECT id_despesa_cartao, descricao, valor, data, categoria, cartao FROM {} WHERE id_despesa_cartao = {};""".format(table, id)
+            elif table == "receitas":
+                values_query = """SELECT id_receita, descricao, valor, data, categoria, conta FROM {} WHERE id_receita = {};""".format(table, id)
+            elif table == "despesas":
+                values_query = """SELECT id_despesa, descricao, valor, data, categoria, conta FROM {} WHERE id_despesa = {};""".format(table, id)
 
             consult_values = query_executor.complex_compund_query(values_query, 6, "query_values")
 
@@ -517,6 +519,10 @@ class Receipts:
                                 generate_receipt(
                                     table, id, description, value, date, category, account
                                 )
+
+                            log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                            log_values = (logged_user, "Consulta", "Consultou um comprovante de {} na data {}, associado a conta {}.".format(report_type, date, account))
+                            query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                         elif is_query_valid == False:
                             with st.expander(label="Resultados", expanded=True):

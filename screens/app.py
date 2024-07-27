@@ -1,5 +1,7 @@
 import streamlit as st
+from data.cache.session_state import user as logged_user
 from dictionary.vars import menu_options
+from functions.query_executor import QueryExecutor
 from functions.user.login import User
 from screens.expenses.main import NewExpense
 from screens.homepage import Home
@@ -42,10 +44,16 @@ def HomePage():
     if sidebar_logoff_button:
         with sidebar:
             with st.spinner("Aguarde um momento..."):
+
+                query_executor = QueryExecutor()
+                log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                log_values = (logged_user, "Logoff", "O usuário realizou logoff.")
+                query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
                 sleep(1)
                 st.toast("Saindo do sistema...")
                 sleep(1)
                 logout()
+
 
     if sidebar_choice == "Selecione uma opção" or sidebar_home_button:
         call_home = Home()

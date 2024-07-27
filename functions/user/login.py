@@ -76,6 +76,9 @@ class User:
                                     with open("data/cache/session_state.py", "w") as session:
                                         session.write("logged_user = '{}'".format(user))
                                         session.write("\nlogged_user_password = '{}'".format(password))
+                                        log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                                        log_values = (user, "Acesso", "O usuário acessou o sistema.")
+                                        query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                                     st.session_state.is_logged_in = True
                                     st.rerun()

@@ -1,3 +1,4 @@
+from data.cache.session_state import logged_user
 from dictionary.sql import last_revenue_id_query, user_fund_accounts_query
 from dictionary.user_stats import user_name, user_document
 from dictionary.vars import to_remove_list
@@ -88,6 +89,14 @@ class NewFundRevenue:
                                 received,
                             )
                             query_executor.insert_query(revenue_query, values, "Receita registrada com sucesso!", "Erro ao registrar receita:")
+
+                            log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                            if received == 'S':
+                                log_values = (logged_user, "Registro", "Registrou uma receita no valor de R$ {} associada a conta {}.".format(value, account))
+                            elif received == 'N':
+                                log_values = (logged_user, "Registro", "Registrou uma receita não recebida no valor de R$ {} associada a conta {}.".format(value, account))
+                            query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
+
 
                             st.subheader(
                                 body=":pencil: Comprovante de receita")

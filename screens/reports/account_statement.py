@@ -49,6 +49,7 @@ class AccountStatement:
                         AND despesas.documento_proprietario_despesa = usuarios.cpf
                 WHERE
                     despesas.pago = 'S'
+                        AND despesas.categoria NOT IN('Pix', 'DOC', 'TED')
                         AND despesas.data >= '{}'
                         AND despesas.data <= '{}'
                         AND despesas.conta IN {}
@@ -74,6 +75,7 @@ class AccountStatement:
                         AND receitas.documento_proprietario_receita = usuarios.cpf
                 WHERE
                     receitas.recebido = 'S'
+                        AND receitas.categoria NOT IN('Pix', 'DOC', 'TED')
                         AND receitas.data >= '{}'
                         AND receitas.data <= '{}'
                         AND receitas.conta IN {}
@@ -165,6 +167,10 @@ class AccountStatement:
 
                                 with st.spinner(text="Aguarde..."):
                                     sleep(2)
+
+                                log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                                log_values = (logged_user, "Consulta", "Consultou o relatório de {} entre o período de {} a {}.".format(statement_option, initial_data, final_data))
+                                query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                     elif confirm_choice and len(selected_accounts) == 0 and initial_data > final_data:
                             st.error(body="Nenhuma conta selecionada.")

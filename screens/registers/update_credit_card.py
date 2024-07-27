@@ -1,3 +1,4 @@
+from data.cache.session_state import logged_user
 from dictionary.vars import months, years, to_remove_list
 from dictionary.user_stats import user_name, user_document
 from dictionary.sql import owner_cards_query, user_current_accounts_query
@@ -162,6 +163,10 @@ class UpdateCreditCards:
                         sleep(1)
                         query_executor.update_table_unique_register(new_limit_query, "Limite atualizado com sucesso!", "Erro ao atualizar limite:")
 
+                        log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                        log_values = (logged_user, "Registro", "Atualizou o limite do cartão {}.".format(card))
+                        query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
+
         def update_credit_card_invoices():
 
             credit_cards = query_executor.complex_consult_query(owner_cards_query)
@@ -211,6 +216,10 @@ class UpdateCreditCards:
                                     )
 
                                     query_executor.insert_query(new_credit_card_invoice_query, new_credit_card_invoice_values, "Fechamento cadastrado com sucesso!", "Erro ao cadastrar fechamento:")
+
+                                    log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                                    log_values = (logged_user, "Cadastro", "Cadastrou um fechamento do cartão {}.".format(card_name))
+                                    query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                                 else:
                                     if beggining_invoice_date >= ending_invoice_date:

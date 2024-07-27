@@ -103,6 +103,10 @@ class CreditCardInvoice:
 
                         query_executor.update_table_unique_register(update_invoice_query, "Fatura fechada com sucesso!", "Falha ao fechar fatura:")
 
+                        log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
+                        log_values = (logged_user, "Registro", "Registrou uma despesa no valor de R$ {} associada a conta {}.".format(month_expenses, selected_card))
+                        query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
+
                         with st.spinner(text="Aguarde..."):
                             sleep(1.5)
 
