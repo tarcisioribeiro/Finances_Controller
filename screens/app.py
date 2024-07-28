@@ -1,5 +1,5 @@
 import streamlit as st
-from data.cache.session_state import user as logged_user
+from data.cache.session_state import logged_user
 from dictionary.vars import menu_options
 from functions.query_executor import QueryExecutor
 from functions.user.login import User
