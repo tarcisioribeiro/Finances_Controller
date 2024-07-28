@@ -2,7 +2,6 @@ from datetime import datetime
 from functions.credit_card import Credit_Card
 from functions.get_balance import GetBalance
 from functions.query_executor import QueryExecutor
-from functions.tests.var_tests import VarTests
 from dictionary.sql import (
     fund_expense_query,
     fund_revenue_query,
@@ -27,7 +26,6 @@ class Home:
     def __init__(self):
 
         query_executor = QueryExecutor()
-        var_tests = VarTests()
 
         def treat_complex_string(str_passed):
 

@@ -1,11 +1,9 @@
 from data.cache.session_state import logged_user, logged_user_password
 from dictionary.sql import user_current_accounts_query
-from io import BytesIO
 from dictionary.vars import to_remove_list
 from functions.query_executor import QueryExecutor
-from functions.tests.var_tests import VarTests
+from functions.tests.variables import Variables
 from time import sleep
-import datetime
 import pandas as pd
 import streamlit as st
 
@@ -15,7 +13,7 @@ class AccountStatement:
     def __init__(self):
 
         query_executor = QueryExecutor()
-        var_tests = VarTests()
+        variable = Variables()
 
         def mount_statement_query(statement_type: str, accounts: list, initial_data: str, final_data: str):
 
@@ -131,6 +129,8 @@ class AccountStatement:
                         loan_data_df["Data"] = pd.to_datetime(loan_data_df["Data"]).dt.strftime("%d/%m/%Y")
                         st.dataframe(loan_data_df, hide_index=True, use_container_width=True)
 
+                    return value
+
         def main_menu():
 
             user_current_accounts = query_executor.complex_consult_query(user_current_accounts_query)
@@ -153,6 +153,9 @@ class AccountStatement:
             if confirm_choice and consult_tables:
 
                 with col5:
+
+                    with st.spinner(text="Aguarde..."):
+                        sleep(2)
                 
                     if statement_option != "Selecione uma opção" and len(selected_accounts) > 0 and (initial_data <= final_data):
                             query_list = []
@@ -160,23 +163,33 @@ class AccountStatement:
 
                             with st.spinner(text="Aguarde..."):
                                 sleep(2)
-
-                            consult_statement(query_list)
+                            value = consult_statement(query_list)
 
                             with col6:
-
-                                with st.spinner(text="Aguarde..."):
-                                    sleep(2)
+                                if statement_option != "Despesas e Receitas":
+                                    with st.spinner(text="Aguarde..."):
+                                        sleep(2)
+                                    total_value = 0
+                                    for i in range(0, len(value)):
+                                        total_value += value[i]
+                                    medium_value = round((total_value / len(value)), 2)
+                                    with st.expander(label="Dados", expanded=True):
+                                        st.info(body="Quantidade de {}: {}.".format(statement_option, len(value)))
+                                        st.info(body="Valor total das {}: R$ {}.".format(statement_option, total_value))
+                                        st.info(body="Valor médio das {}: R$ {}.".format(statement_option, medium_value))
 
                                 log_query = '''INSERT INTO financas.logs_atividades (usuario_log, tipo_log, conteudo_log) VALUES ( %s, %s, %s);'''
                                 log_values = (logged_user, "Consulta", "Consultou o relatório de {} entre o período de {} a {}.".format(statement_option, initial_data, final_data))
                                 query_executor.insert_query(log_query, log_values, "Log gravado.", "Erro ao gravar log:")
 
                     elif confirm_choice and len(selected_accounts) == 0 and initial_data > final_data:
-                            st.error(body="Nenhuma conta selecionada.")
-                            st.error(body="A data inicial não pode ser maior que a final.")
+                        st.error(body="Nenhuma conta selecionada.")
+                        st.error(body="A data inicial não pode ser maior que a final.")
                 
                     elif confirm_choice and initial_data > final_data:
-                            st.error(body="A data inicial não pode ser maior que a final.")
+                        st.error(body="A data inicial não pode ser maior que a final.")
+                    
+                    elif confirm_choice and len(selected_accounts) == 0:
+                        st.error(body="Nenhuma conta selecionada.")
 
         self.main_menu = main_menu

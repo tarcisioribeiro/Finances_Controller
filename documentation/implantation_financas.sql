@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.37, for Linux (x86_64)
 --
--- Host: localhost    Database: testes
+-- Host: localhost    Database: financas
 -- ------------------------------------------------------
 -- Server version	8.0.37-0ubuntu0.22.04.3
 
@@ -16,10 +16,8 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `testes`
+-- Current Database: `financas`
 --
-
-DROP DATABASE `financas`;
 
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `financas` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
@@ -70,7 +68,7 @@ CREATE TABLE `cartao_credito` (
   KEY `fk_cartao_credito_contas` (`conta_associada`),
   CONSTRAINT `fk_cartao_credito_contas` FOREIGN KEY (`conta_associada`) REFERENCES `contas` (`nome_conta`) ON DELETE RESTRICT,
   CONSTRAINT `fk_cartao_credito_usuarios` FOREIGN KEY (`proprietario_cartao`, `documento_titular`) REFERENCES `usuarios` (`nome`, `cpf`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,6 +219,26 @@ CREATE TABLE `fechamentos_cartao` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `logs_atividades`
+--
+
+DROP TABLE IF EXISTS `logs_atividades`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `logs_atividades` (
+  `id_log` int NOT NULL AUTO_INCREMENT,
+  `data_log` date NOT NULL DEFAULT (curdate()),
+  `horario_log` time NOT NULL DEFAULT (curtime()),
+  `usuario_log` varchar(25) NOT NULL,
+  `tipo_log` varchar(100) NOT NULL,
+  `conteudo_log` text NOT NULL,
+  PRIMARY KEY (`id_log`),
+  KEY `fk_logs_atividades_usuarios` (`usuario_log`),
+  CONSTRAINT `fk_logs_atividades_usuarios` FOREIGN KEY (`usuario_log`) REFERENCES `usuarios` (`login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `receitas`
 --
 
@@ -292,16 +310,6 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `unq_usuarios_nome` (`nome`,`cpf`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `usuarios`
---
-
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','123','John Doe',22002317682,'M');
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -312,4 +320,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-23 21:20:26
+-- Dump completed on 2024-07-28 14:27:59
